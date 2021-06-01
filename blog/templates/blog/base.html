@@ -1,0 +1,153 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    {% if title %}
+        <title>aKumoTechnology-{{title}}</title>
+    {% else %}
+        <title>aKumoTechnology</title>
+    {% endif %}
+
+    {% block head_extra %}
+
+    {% endblock head_extra %}
+
+    <style type="text/css">
+        .navbar-nav > li{
+
+  padding-right:30px;
+}
+
+</style>
+
+
+
+
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+ <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'blog-about' %}">About Us</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'post-contributors' %}">Our Contibutors</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'blog-contact' %}">Contact Us</a>
+        </li>
+    </ul>
+
+
+
+      <a class="navbar-brand ml-1000" href="{% url 'blog-home' %}">
+    <img src="{% static 'Logo_Horizontal_AkumoSolutions.png' %}" width="250" height="100" class="d-inline-block align-top" alt="" loading="lazy">
+  </a>
+
+
+
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+
+     {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'post-create'%}">New Post</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'logout'%}">Logout</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'profile'%}">Profile</a>
+        </li>
+
+
+     {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login'%}">Login</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'register'%}">Register</a>
+        </li>
+     {% endif %}
+
+        <form class="form-inline my-2 my-lg-0" method="GET" action="{% url 'blog-search' %}">
+            <input class="form-control mr-sm-2" name="query" value="{{ query }}" placeholder="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+
+    </ul>
+
+  </div>
+</nav>
+
+
+
+
+
+
+
+<ul style="text-align:center">
+               {% for tag in tags_slider|slice:16 %}
+
+                 <button class="btn btn-info"><a class="text-dark text-unstyled" href="{% url 'tagged' tag.slug%}">{{tag.name}}</a></button>
+
+
+    {% endfor %}<p>   </p><br></ul>
+
+
+
+
+
+
+
+     <div class="container md">
+         {% if messages %}
+          {% for message in messages %}
+             <div class="alert alert-{{message.tags}}">{{message}}
+             </div>
+           {% endfor %}
+         {% endif %}
+         {% block content %}{% endblock %}
+     </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/1.1.1/marked.min.js"></script>
+
+    <script type="{% static 'text/javascript' %}">
+    $(document).ready(function(){
+         $(".content-markdown").each(function(){
+               var content = $(this).text()
+               console.log(content)
+               var markedContent = marked(content)
+               console.log(markedContent)
+               $(this).html(markedContent)
+         })
+
+
+    })
+
+    </script>
+</body>
+
+
+</html>

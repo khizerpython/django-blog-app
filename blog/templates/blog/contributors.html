@@ -1,0 +1,19 @@
+{% extends 'blog/base.html'%}
+{% load static %}
+{% block content %}
+<h1>Our contributors</h1>
+
+
+<div class="row">
+       {% for a in profile %}
+          <div class="col-4 bg-light">
+           <h1>{{a.user}}</h1><img class="rounded-circle article-img" src= "{{a.image.url}}">
+          </div>
+
+
+
+         {% endfor %}
+
+</div>
+
+{% endblock %}

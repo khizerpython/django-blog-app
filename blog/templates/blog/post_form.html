@@ -1,0 +1,17 @@
+{% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
+ {% block head_extra %}
+    {{form.media}}
+    {% endblock head_extra %}
+
+{% block content %}
+  <h2 class="text-center">Write Article</h2>
+    <div class="col-md-5 offset-md-3">
+      <form method="POST" enctype="multipart/form-data">
+       {% csrf_token %}
+        {{form|crispy}}
+           <input type="submit" value="post" class="btn btn-secondary">
+       </form>
+
+     </div>
+{% endblock %}
